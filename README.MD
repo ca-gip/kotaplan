@@ -1,26 +1,24 @@
 
-# RQC-CLI
+# Kotaplan
 
-The __rqc-cli__ will help you migrate existing workload to use the resourcequota operator.
+The `kotaplan` cli will help you set up `kotary` if you have existing workload running on your cluster.
 
 ## Install
 
-
-
 ### Windows 
 
-1. Download [here](https://scm.saas.cagip.group.gca/cagip/devops/rqc-cli/raw/master/bin/rqc.exe)
+1. Download [here](https://github.com/ca-gip/kotaplan/releases/download/0.1.0/kotaplan.exe)
 2. Open Cmd
 ```bash
-.\rqc.exe -h
+.\kotaplan.exe -h
 ```
 
 ### Linux
 
 ```bash
-sudo wget https://scm.saas.cagip.group.gca/cagip/devops/rqc-cli/raw/master/bin/rqc -P /usr/local/bin
-sudo chmod a+x /usr/local/bin/rqc
-rqc -h
+sudo wget https://github.com/ca-gip/kotaplan/releases/download/0.1.0/kotaplan -P /usr/local/bin
+sudo chmod a+x /usr/local/bin/kotaplan
+kotaplan -h
 ```
 
 
@@ -52,23 +50,23 @@ rqc -h
  
 Using default value for all the parameters
 ```bash
-rqc
+kotaplan
 ```
 
 In case manifest should be generated
 ```bash
-rqc --manefiest
+kotaplan --manefiest
 ```
 
 In case the default claim should be customized :
 Example with a default claim with 6Gi of Memory and 1 CPU
 ```bash
-rqc --memclaim 6 --cpuclaim 1000
+kotaplan --memclaim 6 --cpuclaim 1000
 ```
 
 Show help
 ```bash
-rqc -h
+kotaplan -h
 ```
 
 All the arguments that can be use
