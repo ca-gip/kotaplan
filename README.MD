@@ -55,7 +55,7 @@ kotaplan
 
 In case manifest should be generated
 ```bash
-kotaplan --manefiest
+kotaplan --manifest
 ```
 
 In case the default claim should be customized :
