@@ -16,7 +16,7 @@ The `kotaplan` cli will help you set up `kotary` if you have existing workload r
 ### Linux
 
 ```bash
-sudo wget https://github.com/ca-gip/kotaplan/releases/downloadv/v0.1.0/kotaplan -P /usr/local/bin
+sudo wget https://github.com/ca-gip/kotaplan/releases/download/v0.1.0/kotaplan -P /usr/local/bin
 sudo chmod a+x /usr/local/bin/kotaplan
 kotaplan -h
 ```
