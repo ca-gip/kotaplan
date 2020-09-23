@@ -7,7 +7,7 @@ The `kotaplan` cli will help you set up `kotary` if you have existing workload r
 
 ### Windows 
 
-1. Download [here](https://github.com/ca-gip/kotaplan/releases/download/0.1.0/kotaplan.exe)
+1. Download [here](https://github.com/ca-gip/kotaplan/releases/download/v0.1.0/kotaplan.exe)
 2. Open Cmd
 ```bash
 .\kotaplan.exe -h
@@ -16,7 +16,7 @@ The `kotaplan` cli will help you set up `kotary` if you have existing workload r
 ### Linux
 
 ```bash
-sudo wget https://github.com/ca-gip/kotaplan/releases/download/0.1.0/kotaplan -P /usr/local/bin
+sudo wget https://github.com/ca-gip/kotaplan/releases/downloadv/v0.1.0/kotaplan -P /usr/local/bin
 sudo chmod a+x /usr/local/bin/kotaplan
 kotaplan -h
 ```
