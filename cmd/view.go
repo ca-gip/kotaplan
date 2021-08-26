@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	"fmt"
+	"github.com/ca-gip/kotaplan/internal/services/k8s"
+	"github.com/ca-gip/kotaplan/internal/services/render"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -9,28 +11,21 @@ import (
 // viewCmd represents the view command
 var viewCmd = &cobra.Command{
 	Use:   "view",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Visualize resource consumption, policy compliance and recommended ResourceQuota",
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("view called")
+		params := parseParameters(cmd, args)
+		k8sClient, metricsClient := initClients(cmd, args)
+		clusterData, err := k8s.GetClusterData(k8sClient, metricsClient, params)
+		if err != nil {
+			log.Fatalf("Could not gather the required data : %s", err)
+		}
+		clusterStat := newClusterStat(clusterData, params)
+		render.NamespaceTable(clusterStat)
+		render.SummaryTable(clusterStat, params)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(viewCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// viewCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// viewCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

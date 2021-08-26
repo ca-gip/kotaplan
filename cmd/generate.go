@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	"fmt"
+	"github.com/ca-gip/kotaplan/internal/services/k8s"
+	"github.com/ca-gip/kotaplan/internal/services/render"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -12,20 +14,18 @@ var generateCmd = &cobra.Command{
 	Short: "Generate ResourceQuota manifest",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("generate called")
+		params := parseParameters(cmd, args)
+		k8sClient, metricsClient := initClients(cmd, args)
+		clusterData, err := k8s.GetClusterData(k8sClient, metricsClient, params)
+		if err != nil {
+			log.Fatalf("Could not gather the required data : %s", err)
+		}
+		clusterStat := newClusterStat(clusterData, params)
+		render.Manifest(clusterStat)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(generateCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// generateCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// generateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

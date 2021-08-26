@@ -34,13 +34,12 @@ type ClusterStat struct {
 	NamespacesStat  []NamespaceStat
 }
 
-type Settings struct {
-	DefaultClaim  v1.ResourceList
-	RatioMemNs    float64
-	RatioCpuNs    float64
-	OvercommitCpu float64
-	OvercommitMem float64
-	Manifest      bool
-	Margin        float64
-	Labels        map[string]string
+type Parameters struct {
+	DefaultClaim     v1.ResourceList
+	RatioNsMemory    float64
+	RatioNsCpu       float64
+	OverCommitMemory float64
+	OverCommitCpu    float64
+	Margin           float64
+	Labels           map[string]string
 }

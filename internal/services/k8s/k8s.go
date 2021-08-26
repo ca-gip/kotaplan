@@ -51,7 +51,7 @@ func DefaultKubeconfig() string {
 	return filepath.Join(home, ".kube", "config")
 }
 
-func GetClusterData(client *kubernetes.Clientset, metricsClient *metrics.Clientset, settings *types.Settings) (cluster *types.ClusterData, err error) {
+func GetClusterData(client *kubernetes.Clientset, metricsClient *metrics.Clientset, settings *types.Parameters) (cluster *types.ClusterData, err error) {
 
 	cluster = &types.ClusterData{
 		Nodes:      nil,
@@ -108,7 +108,7 @@ func getWorkerNodes(client *kubernetes.Clientset) (worker []v1.Node, err error) 
 	return
 }
 
-func getNamespace(client *kubernetes.Clientset, settings *types.Settings) (namespaces *v1.NamespaceList, err error) {
+func getNamespace(client *kubernetes.Clientset, settings *types.Parameters) (namespaces *v1.NamespaceList, err error) {
 	namespaces, err = client.
 		CoreV1().
 		Namespaces().

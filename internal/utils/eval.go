@@ -10,7 +10,7 @@ import (
 	"math"
 )
 
-func recommendedSpec(memReq int64, cpuReq int64, settings *types.Settings) v1.ResourceList {
+func recommendedSpec(memReq int64, cpuReq int64, settings *types.Parameters) v1.ResourceList {
 
 	if memReq > settings.DefaultClaim.Memory().Value() {
 		memReq = int64(math.Round(float64(memReq) * settings.Margin))
@@ -30,12 +30,12 @@ func recommendedSpec(memReq int64, cpuReq int64, settings *types.Settings) v1.Re
 	}
 }
 
-func defaultClaimFit(memReq int64, cpuReq int64, settings *types.Settings) bool {
+func defaultClaimFit(memReq int64, cpuReq int64, settings *types.Parameters) bool {
 	return float64(memReq) < float64(settings.DefaultClaim.Memory().Value())*1-settings.Margin &&
 		float64(cpuReq) < float64(settings.DefaultClaim.Cpu().MilliValue())*1-settings.Margin
 }
 
-func CheckSpec(memReq int64, cpuReq int64, settings *types.Settings) (claimFit bool, spec v1.ResourceList) {
+func CheckSpec(memReq int64, cpuReq int64, settings *types.Parameters) (claimFit bool, spec v1.ResourceList) {
 	claimFit = defaultClaimFit(memReq, cpuReq, settings)
 	if claimFit {
 		spec = settings.DefaultClaim
@@ -46,16 +46,16 @@ func CheckSpec(memReq int64, cpuReq int64, settings *types.Settings) (claimFit b
 	return
 }
 
-func CheckRespectMaxNS(spec v1.ResourceList, stats types.ClusterStat, settings *types.Settings) bool {
-	return spec.Cpu().MilliValue() < int64(float64(stats.CpuAvailable)*settings.RatioCpuNs) &&
-		spec.Memory().Value() < int64(float64(stats.MemAvailable)*settings.RatioMemNs)
+func CheckRespectMaxNS(spec v1.ResourceList, stats types.ClusterStat, settings *types.Parameters) bool {
+	return spec.Cpu().MilliValue() < int64(float64(stats.CpuAvailable)*settings.RatioNsCpu) &&
+		spec.Memory().Value() < int64(float64(stats.MemAvailable)*settings.RatioNsMemory)
 }
 
-func Result(stats types.ClusterStat, settings *types.Settings) string {
+func Result(stats types.ClusterStat, settings *types.Parameters) string {
 	var buffer bytes.Buffer
 
-	commitedMem := int64(math.Round(float64(stats.MemAvailable) * settings.OvercommitMem))
-	commitedCpu := int64(math.Round(float64(stats.CpuAvailable) * settings.OvercommitCpu))
+	commitedMem := int64(math.Round(float64(stats.MemAvailable) * settings.OverCommitMemory))
+	commitedCpu := int64(math.Round(float64(stats.CpuAvailable) * settings.OverCommitCpu))
 
 	passMem := aggregate.ClaimMemSum(stats) < commitedMem
 	passCPU := aggregate.ClaimCpuSum(stats) < commitedCpu
