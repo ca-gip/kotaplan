@@ -14,6 +14,10 @@ Adding completion for bash (also available for zsh and fish)
 echo "source <(kotaplan completion bash)" >> ~/.bashrc
 ```
 
+#### Windows
+
+A Windows binary is also available checkout our latest [release](https://github.com/ca-gip/kotaplan/releases/latest/), you will find `kotaplan_<version>_windows_amd64.tar.gz`
+
 ## Feature
 
  __What it accomplishes :__
