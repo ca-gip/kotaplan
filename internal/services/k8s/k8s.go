@@ -73,9 +73,9 @@ func GetClusterData(client *kubernetes.Clientset, metricsClient *metrics.Clients
 	}
 
 	for _, ns := range cluster.Namespaces.Items {
-		pods, err := getPods(client, ns)
+		pods, errPod := getPods(client, ns)
 
-		if err != nil {
+		if errPod != nil {
 			return
 		}
 
