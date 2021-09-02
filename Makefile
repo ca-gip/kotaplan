@@ -1,6 +1,6 @@
 .PHONY: clean
 
-REPO= github.com/ca-gip/dploy
+REPO= github.com/ca-gip/kotaplan
 NAME= kotaplan
 
 dependency:
