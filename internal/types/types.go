@@ -8,7 +8,7 @@ import (
 type ClusterData struct {
 	Nodes      []v1.Node
 	Namespaces *v1.NamespaceList
-	Pods       *v1.PodList
+	Pods       []v1.Pod
 	PodsMetric *v1beta1.PodMetricsList
 }
 

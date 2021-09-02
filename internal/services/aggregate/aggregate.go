@@ -34,15 +34,15 @@ func PodsSum(cluster types.ClusterStat) (result int) {
 	return
 }
 
-func PodCountByNS(pods *v1.PodList, ns v1.Namespace) int {
-	return underscore.Chain(pods.Items).WhereBy(map[string]interface{}{
+func PodCountByNS(pods []v1.Pod, ns v1.Namespace) int {
+	return underscore.Chain(pods).WhereBy(map[string]interface{}{
 		"Namespace": ns.Name,
 	}).Count()
 }
 
-func MemRequestSumByNS(pods *v1.PodList, ns v1.Namespace) (result int64) {
+func MemRequestSumByNS(pods []v1.Pod, ns v1.Namespace) (result int64) {
 	underscore.
-		Chain(pods.Items).
+		Chain(pods).
 		WhereBy(map[string]interface{}{"Namespace": ns.Name}).
 		Map(func(pod v1.Pod, _ int) []v1.Container { return pod.Spec.Containers }).
 		Map(func(containers []v1.Container, _ int) (totalMemReq int64) {
@@ -57,9 +57,9 @@ func MemRequestSumByNS(pods *v1.PodList, ns v1.Namespace) (result int64) {
 	return
 }
 
-func CpuRequestSumByNS(pods *v1.PodList, ns v1.Namespace) (result int64) {
+func CpuRequestSumByNS(pods []v1.Pod, ns v1.Namespace) (result int64) {
 	underscore.
-		Chain(pods.Items).
+		Chain(pods).
 		WhereBy(map[string]interface{}{"Namespace": ns.Name}).
 		Map(func(pod v1.Pod, _ int) []v1.Container { return pod.Spec.Containers }).
 		Map(func(containers []v1.Container, _ int) (totalCpuReq int64) {

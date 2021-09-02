@@ -72,10 +72,16 @@ func GetClusterData(client *kubernetes.Clientset, metricsClient *metrics.Clients
 		return
 	}
 
-	cluster.Pods, err = getPods(client)
+	for _, ns := range cluster.Namespaces.Items {
+		pods, err := getPods(client, ns)
 
-	if err != nil {
-		return
+		if err != nil {
+			return
+		}
+
+		for _, pod := range pods.Items {
+			cluster.Pods = append(cluster.Pods, pod)
+		}
 	}
 
 	cluster.PodsMetric, err = getPodsMetric(metricsClient)
@@ -118,10 +124,10 @@ func getNamespace(client *kubernetes.Clientset, settings *types.Parameters) (nam
 	return
 }
 
-func getPods(client *kubernetes.Clientset) (pods *v1.PodList, err error) {
+func getPods(client *kubernetes.Clientset, namespace v1.Namespace) (pods *v1.PodList, err error) {
 	pods, err = client.
 		CoreV1().
-		Pods("").
+		Pods(namespace.Name).
 		List(*&metav1.ListOptions{})
 	return
 }
