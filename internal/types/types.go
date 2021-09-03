@@ -9,7 +9,7 @@ type ClusterData struct {
 	Nodes      []v1.Node
 	Namespaces *v1.NamespaceList
 	Pods       []v1.Pod
-	PodsMetric *v1beta1.PodMetricsList
+	PodsMetric []v1beta1.PodMetrics
 }
 
 type NamespaceStat struct {

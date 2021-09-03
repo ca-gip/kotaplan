@@ -74,9 +74,9 @@ func CpuRequestSumByNS(pods []v1.Pod, ns v1.Namespace) (result int64) {
 	return
 }
 
-func MemUsageByNS(podsMetric *v1beta1.PodMetricsList, ns v1.Namespace) (result int64) {
+func MemUsageByNS(podsMetric []v1beta1.PodMetrics, ns v1.Namespace) (result int64) {
 	underscore.
-		Chain(podsMetric.Items).
+		Chain(podsMetric).
 		WhereBy(map[string]interface{}{"Namespace": ns.Name}).
 		Map(func(podMetric v1beta1.PodMetrics, _ int) []v1beta1.ContainerMetrics { return podMetric.Containers }).
 		Map(func(containersMetric []v1beta1.ContainerMetrics, _ int) (totalMemUsage int64) {
@@ -91,9 +91,9 @@ func MemUsageByNS(podsMetric *v1beta1.PodMetricsList, ns v1.Namespace) (result i
 	return
 }
 
-func CpuUsageByNS(podsMetric *v1beta1.PodMetricsList, ns v1.Namespace) (result int64) {
+func CpuUsageByNS(podsMetric []v1beta1.PodMetrics, ns v1.Namespace) (result int64) {
 	underscore.
-		Chain(podsMetric.Items).
+		Chain(podsMetric).
 		WhereBy(map[string]interface{}{"Namespace": ns.Name}).
 		Map(func(podMetric v1beta1.PodMetrics, _ int) []v1beta1.ContainerMetrics { return podMetric.Containers }).
 		Map(func(containersMetric []v1beta1.ContainerMetrics, _ int) (totalCpuUsage int64) {

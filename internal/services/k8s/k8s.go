@@ -74,20 +74,23 @@ func GetClusterData(client *kubernetes.Clientset, metricsClient *metrics.Clients
 
 	for _, ns := range cluster.Namespaces.Items {
 		pods, errPod := getPods(client, ns)
-
 		if errPod != nil {
+			return
+		}
+
+		podMetrics, errPodMetrics := getPodsMetric(metricsClient, ns)
+		if errPodMetrics != nil {
 			return
 		}
 
 		for _, pod := range pods.Items {
 			cluster.Pods = append(cluster.Pods, pod)
 		}
-	}
 
-	cluster.PodsMetric, err = getPodsMetric(metricsClient)
+		for _, metricsPod := range podMetrics.Items {
+			cluster.PodsMetric = append(cluster.PodsMetric, metricsPod)
+		}
 
-	if err != nil {
-		return
 	}
 
 	return
@@ -132,10 +135,10 @@ func getPods(client *kubernetes.Clientset, namespace v1.Namespace) (pods *v1.Pod
 	return
 }
 
-func getPodsMetric(metricsClient *metrics.Clientset) (podsMetric *v1beta1.PodMetricsList, err error) {
+func getPodsMetric(metricsClient *metrics.Clientset, namespace v1.Namespace) (podsMetric *v1beta1.PodMetricsList, err error) {
 	podsMetric, err = metricsClient.
 		MetricsV1beta1().
-		PodMetricses("").
+		PodMetricses(namespace.Name).
 		List(*&metav1.ListOptions{})
 	return
 }
