@@ -85,10 +85,11 @@ Example a default claim with 6Gi of Memory and 1 CPU
 kotaplan view --default-claim-memory 6 --default-claim-cpu 1000
 ```
 
-<hr/>
+ <hr/>
 <p align=center  style="background-color:#333333 !important;">
+  <a href="https://www.jetbrains.com/">
   Developed with
   <br/>
   <img align="center" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="drawing" width="100"/>
+  </a>
 </p>
-
